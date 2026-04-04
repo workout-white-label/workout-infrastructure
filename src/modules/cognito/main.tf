@@ -52,8 +52,8 @@ resource "aws_cognito_user_pool_client" "clients" {
 
   generate_secret = each.value.generate_secret
 
-  supported_identity_providers = var.supported_identity_providers
-  explicit_auth_flows         = var.explicit_auth_flows
+  supported_identity_providers  = var.supported_identity_providers
+  explicit_auth_flows           = var.explicit_auth_flows
 
   refresh_token_validity = 30
   access_token_validity  = 60
