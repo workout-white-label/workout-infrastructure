@@ -1,4 +1,4 @@
-Copyright (c) 2026 Your Company Name
+Copyright (c) 2026 Juliano Sena da Silva Carlos Ltda.
 
 All rights reserved.
 
