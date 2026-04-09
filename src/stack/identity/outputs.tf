@@ -28,3 +28,8 @@ output "cognito_domain_prefix" {
   description = "Cognito hosted UI domain prefix."
   value       = module.cognito.cognito_domain_prefix
 }
+
+output "supported_identity_providers" {
+  description = "Federated and native IdPs enabled on the app client."
+  value       = module.cognito.supported_identity_providers
+}

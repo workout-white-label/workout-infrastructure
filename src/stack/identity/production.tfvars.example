@@ -1,15 +1,60 @@
 # Copy to production.tfvars and adjust. production.tfvars is gitignored.
+#
+# Social sign-in: register each OAuth app with redirect URI:
+#   https://<cognito_domain_prefix>.auth.<region>.amazoncognito.com/oauth2/idpresponse
+# (Use your real domain prefix and region; get prefix from terraform output cognito_domain_prefix after first apply,
+#  or set cognito_domain_prefix below first.)
+#
+# AWS Cognito supports Google, Facebook, and Sign in with Apple natively. There is NO built-in X (Twitter) IdP.
+# For X, only add oidc_identity_providers if X (or a broker) exposes OIDC with an issuer URL you can use.
 
 aws_region   = "us-east-1"
 project_name = "workout"
 environment  = "production"
 
-# Optional: customise Cognito. Add or remove clients as needed.
+# Single web app client (default). Match callback_urls to your SPA and to Cognito app client settings.
 # clients = {
-#   app  = { generate_secret = false }   # e.g. mobile
-#   web  = { generate_secret = false }   # e.g. SPA
-#   api  = { generate_secret = true }    # e.g. backend
+#   web = {
+#     generate_secret = false
+#     callback_urls   = ["https://app.example.com/callback", "http://localhost:3000/callback"]
+#     logout_urls     = ["https://app.example.com", "http://localhost:3000"]
+#   }
 # }
+
+# Default is true (email/password on Hosted UI). Set false only when using federated-only and IdPs below are set.
+# allow_cognito_native_sign_in = false
+
+# google_idp = {
+#   client_id     = "....apps.googleusercontent.com"
+#   client_secret = "..."
+# }
+
+# facebook_idp = {
+#   client_id     = "..." # App ID
+#   client_secret = "..." # App Secret
+# }
+
+# apple_idp = {
+#   client_id        = "com.example.web" # Services ID
+#   team_id          = "..."
+#   key_id           = "..."
+#   private_key      = <<-EOT
+# -----BEGIN PRIVATE KEY-----
+# ...
+# -----END PRIVATE KEY-----
+# EOT
+# }
+
+# Optional: OIDC only (e.g. custom X integration if supported). Provider name becomes the button label key.
+# oidc_identity_providers = {
+#   X = {
+#     client_id        = "..."
+#     client_secret    = "..."
+#     oidc_issuer      = "https://issuer.example.com"
+#     authorize_scopes = "openid email profile"
+#   }
+# }
+
 # user_pool_name        = "workout-production-users"
 # cognito_domain_prefix = "workout-production-auth"
 # password_policy_min_length = 12

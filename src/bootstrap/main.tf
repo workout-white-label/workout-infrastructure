@@ -52,14 +52,4 @@ resource "aws_s3_bucket_lifecycle_configuration" "state" {
   }
 }
 
-# DynamoDB table for state locking
-resource "aws_dynamodb_table" "locks" {
-  name         = "${var.project_name}-terraform-locks"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-}
+# State locking is handled by Terraform S3 backend (use_lockfile), not DynamoDB.

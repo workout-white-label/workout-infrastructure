@@ -27,29 +27,78 @@ variable "auto_verified_attributes" {
 }
 
 variable "password_policy_min_length" {
-  description = "Minimum password length."
+  description = "Minimum password length (for native COGNITO sign-in only)."
   type        = number
   default     = 12
 }
 
 variable "clients" {
-  description = "Map of Cognito user pool clients. Key = client name (e.g. app, web), value = { generate_secret = bool }. Each client is named <project>-<environment>-<key>."
+  description = "Map of Cognito user pool clients. Key = client name, value includes OAuth settings for Hosted UI / social sign-in."
   type = map(object({
-    generate_secret = optional(bool, false)
+    generate_secret                      = optional(bool, false)
+    callback_urls                        = optional(list(string), [])
+    logout_urls                          = optional(list(string), [])
+    allowed_oauth_flows                  = optional(list(string), ["code"])
+    allowed_oauth_scopes                 = optional(list(string), ["openid", "email", "profile"])
+    allowed_oauth_flows_user_pool_client = optional(bool, true)
   }))
   default = {}
 }
 
-variable "supported_identity_providers" {
-  description = "Identity providers enabled for each client."
-  type        = list(string)
-  default     = ["COGNITO"]
+variable "allow_cognito_native_sign_in" {
+  description = "If true, include COGNITO in supported_identity_providers (email/password on Hosted UI). Default true so apply works before federated IdPs are configured; set false for federated-only once IdPs are set."
+  type        = bool
+  default     = true
+}
+
+variable "google_idp" {
+  description = "Google OAuth client (console.cloud.google.com). Set null to disable."
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  default  = null
+  nullable = true
+}
+
+variable "facebook_idp" {
+  description = "Facebook app credentials (developers.facebook.com). Set null to disable."
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  default  = null
+  nullable = true
+}
+
+variable "apple_idp" {
+  description = "Sign in with Apple (developer.apple.com). Set null to disable."
+  type = object({
+    client_id        = string
+    team_id          = string
+    key_id           = string
+    private_key      = string
+    authorize_scopes = optional(string, "email openid")
+  })
+  default  = null
+  nullable = true
+}
+
+variable "oidc_identity_providers" {
+  description = "Extra OIDC IdPs (e.g. X/Twitter if your app exposes OIDC). Map key = Cognito provider name shown in Hosted UI (e.g. \"X\"). AWS has no built-in X IdP."
+  type = map(object({
+    client_id        = string
+    client_secret    = string
+    oidc_issuer      = string
+    authorize_scopes = optional(string, "openid email profile")
+  }))
+  default = {}
 }
 
 variable "explicit_auth_flows" {
-  description = "Auth flows allowed for each client."
+  description = "Auth flows for each client. Hosted UI works with SRP + refresh; include ALLOW_USER_PASSWORD_AUTH if allow_cognito_native_sign_in is true."
   type        = list(string)
-  default     = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
+  default     = ["ALLOW_USER_SRP_AUTH", "ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_PASSWORD_AUTH"]
 }
 
 variable "cognito_domain_prefix" {

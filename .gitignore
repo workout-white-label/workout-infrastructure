@@ -36,7 +36,7 @@ terraform.rc
 *.tfvars
 *.tfvars.json
 !*.tfvars.example
-# Backend config with bucket/table names (copy from backend.example.hcl)
+# Backend config (copy from backend.example.hcl; bucket, region, use_lockfile, etc.)
 src/stack/**/backend.hcl
 
 # Environment and secrets

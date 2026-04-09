@@ -26,12 +26,17 @@ output "client_secrets" {
 
 output "cognito_domain" {
   description = "Cognito hosted UI domain (e.g. https://<domain>.auth.<region>.amazoncognito.com)."
-  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com"
+  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.region}.amazoncognito.com"
 }
 
 output "cognito_domain_prefix" {
   description = "Domain prefix used for the Cognito hosted UI."
   value       = aws_cognito_user_pool_domain.main.domain
+}
+
+output "supported_identity_providers" {
+  description = "Identity providers enabled on the app client(s). Nonsensitive: provider names only (not IdP secrets)."
+  value       = nonsensitive(local.supported_identity_providers)
 }
 
 data "aws_region" "current" {}
