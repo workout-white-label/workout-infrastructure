@@ -1,9 +1,9 @@
 terraform {
-  required_version = ">= 1.14.5"
+  required_version = ">= 1.15.6"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.0"
+      version = ">= 6.51.0"
     }
   }
   # Bootstrap state is local; after this, all other stacks use S3 backend
