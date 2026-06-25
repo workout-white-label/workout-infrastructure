@@ -1,9 +1,3 @@
-variable "aws_region" {
-  description = "AWS region for S3 and Route 53 resources."
-  type        = string
-  default     = "eu-west-1"
-}
-
 variable "project_name" {
   description = "Project name used in resource names and tags."
   type        = string
@@ -15,12 +9,12 @@ variable "environment" {
 }
 
 variable "domain_name" {
-  description = "Custom domain served by CloudFront."
+  description = "Custom domain served by CloudFront (e.g. workout.julianosena.com)."
   type        = string
 }
 
 variable "route53_zone_id" {
-  description = "Route 53 hosted zone ID for julianosena.com (or the zone that contains domain_name)."
+  description = "Route 53 hosted zone ID for DNS validation and the CloudFront alias record."
   type        = string
 }
 

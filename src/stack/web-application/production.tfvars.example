@@ -1,0 +1,20 @@
+# Copy to production.tfvars and adjust. production.tfvars is gitignored.
+#
+# Prerequisites:
+# - julianosena.com hosted zone in Route 53 (note the zone ID below)
+# - julianosena.com MUST use the Route 53 nameservers at your domain registrar.
+#   If the registrar still points elsewhere, ACM validation will never complete
+#   even when the CNAME record exists in this hosted zone.
+# - AWS credentials configured (e.g. aws sso login; export AWS_PROFILE=...)
+
+aws_region   = "eu-west-1"
+project_name = "workout"
+environment  = "production"
+
+domain_name     = "workout.julianosena.com"
+route53_zone_id = "Z05866939NTBMIGTWGHJ" # Route 53 hosted zone ID for julianosena.com
+
+tags = {
+  Project     = "workout"
+  Environment = "production"
+}

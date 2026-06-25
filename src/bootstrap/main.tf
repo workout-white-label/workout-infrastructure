@@ -51,5 +51,3 @@ resource "aws_s3_bucket_lifecycle_configuration" "state" {
     }
   }
 }
-
-# State locking is handled by Terraform S3 backend (use_lockfile), not DynamoDB.
