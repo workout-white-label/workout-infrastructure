@@ -17,6 +17,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Lambda builds
+src/lambdas/**/node_modules/
+src/lambdas/**/dist/
+src/modules/**/.build/
+
 # Terraform
 .terraform/
 .terraform.lock.hcl

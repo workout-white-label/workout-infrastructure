@@ -30,6 +30,16 @@ resource "aws_cognito_user_pool" "main" {
   username_attributes      = var.username_attributes
   auto_verified_attributes = var.auto_verified_attributes
 
+  dynamic "lambda_config" {
+    for_each = var.pre_token_generation_lambda_arn != null && var.attach_pre_token_generation_trigger ? [1] : []
+    content {
+      pre_token_generation_config {
+        lambda_arn     = var.pre_token_generation_lambda_arn
+        lambda_version = "V2_0"
+      }
+    }
+  }
+
   password_policy {
     minimum_length    = var.password_policy_min_length
     require_lowercase = true

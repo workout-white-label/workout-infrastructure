@@ -33,3 +33,13 @@ output "supported_identity_providers" {
   value       = module.cognito.supported_identity_providers
 }
 
+output "pre_token_generation_lambda_arn" {
+  description = "ARN of the Cognito Pre Token Generation Lambda."
+  value       = module.cognito_pre_token_lambda.function_arn
+}
+
+output "pre_token_generation_lambda_name" {
+  description = "Name of the Cognito Pre Token Generation Lambda."
+  value       = module.cognito_pre_token_lambda.function_name
+}
+

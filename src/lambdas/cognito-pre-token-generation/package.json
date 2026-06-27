@@ -1,0 +1,16 @@
+{
+  "name": "cognito-pre-token-generation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.147",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.25.1",
+    "typescript": "^5.8.2"
+  }
+}

@@ -107,6 +107,19 @@ variable "cognito_domain_prefix" {
   default     = ""
 }
 
+variable "pre_token_generation_lambda_arn" {
+  description = "ARN of the Pre Token Generation Lambda (V2). When set, Cognito invokes it on every token issuance."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
+variable "attach_pre_token_generation_trigger" {
+  description = "When true (and pre_token_generation_lambda_arn is set), attach the Pre Token Generation trigger on the user pool. Set false on the first apply if Cognito rejects the trigger before the Lambda permission exists; then apply again with true."
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "Tags to apply to Cognito resources."
   type        = map(string)

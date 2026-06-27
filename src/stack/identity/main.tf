@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.0"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = ">= 2.0"
+    }
   }
 
   # All S3 backend settings (bucket, region, key, encrypt, use_lockfile) live in
@@ -14,6 +18,16 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+}
+
+module "cognito_pre_token_lambda" {
+  source = "../../modules/lambda"
+
+  project_name  = var.project_name
+  environment   = var.environment
+  function_name = "cognito-pre-token"
+  handler_path  = abspath("${path.module}/../../lambdas/cognito-pre-token-generation/dist/handler.js")
+  tags          = var.tags
 }
 
 module "cognito" {
@@ -37,5 +51,20 @@ module "cognito" {
 
   cognito_domain_prefix = var.cognito_domain_prefix
 
+  pre_token_generation_lambda_arn     = module.cognito_pre_token_lambda.function_arn
+  attach_pre_token_generation_trigger = var.attach_pre_token_generation_trigger
+
   tags = var.tags
+}
+
+# Cognito requires this permission before the user pool trigger is attached.
+# Kept outside the cognito module to avoid a Terraform cycle (permission needs
+# pool ARN; pool must not depend_on permission). If apply fails attaching the
+# trigger, run apply again once this permission exists.
+resource "aws_lambda_permission" "cognito_pre_token_generation" {
+  statement_id  = "AllowCognitoPreTokenGeneration"
+  action        = "lambda:InvokeFunction"
+  function_name = module.cognito_pre_token_lambda.function_arn
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = module.cognito.user_pool_arn
 }

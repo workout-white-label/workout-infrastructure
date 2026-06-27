@@ -123,6 +123,12 @@ variable "cognito_domain_prefix" {
   default     = ""
 }
 
+variable "attach_pre_token_generation_trigger" {
+  description = "Attach the Pre Token Generation Lambda trigger on the user pool. If apply fails because the trigger is set before the Lambda permission exists, set this to false, apply once, then set true and apply again."
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "Tags for Cognito resources."
   type        = map(string)

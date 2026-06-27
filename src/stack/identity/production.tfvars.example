@@ -8,7 +8,7 @@
 # AWS Cognito supports Google, Facebook, and Sign in with Apple natively. There is NO built-in X (Twitter) IdP.
 # For X, only add oidc_identity_providers if X (or a broker) exposes OIDC with an issuer URL you can use.
 
-aws_region   = "us-east-1"
+aws_region   = "eu-west-1"
 project_name = "workout"
 environment  = "production"
 
