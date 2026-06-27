@@ -34,13 +34,18 @@ output "jdbc_url" {
 }
 
 output "credentials_secret_arn" {
-  description = "Secrets Manager ARN with username, password, host, port, dbname, and jdbc_url."
+  description = "Secrets Manager ARN for user-manager database credentials."
   value       = module.database.credentials_secret_arn
 }
 
 output "credentials_secret_name" {
-  description = "Secrets Manager secret name for database credentials."
+  description = "Secrets Manager path for user-manager database credentials."
   value       = module.database.credentials_secret_name
+}
+
+output "credentials_secret_path" {
+  description = "Hierarchical Secrets Manager path (workout/production/user-manager/database/credentials)."
+  value       = module.database.credentials_secret_path
 }
 
 output "db_security_group_id" {

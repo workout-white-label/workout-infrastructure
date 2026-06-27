@@ -64,6 +64,13 @@ resource "aws_lambda_function" "main" {
   filename         = data.archive_file.lambda.output_path
   source_code_hash = data.archive_file.lambda.output_base64sha256
 
+  dynamic "environment" {
+    for_each = length(var.environment_variables) > 0 ? [1] : []
+    content {
+      variables = var.environment_variables
+    }
+  }
+
   depends_on = [aws_iam_role_policy_attachment.lambda_basic]
 
   tags = local.common_tags

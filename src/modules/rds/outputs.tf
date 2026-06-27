@@ -44,7 +44,12 @@ output "credentials_secret_arn" {
 }
 
 output "credentials_secret_name" {
-  description = "Name of the Secrets Manager secret with database credentials."
+  description = "Secrets Manager path/name for database credentials (e.g. workout/production/user-manager/database/credentials)."
+  value       = aws_secretsmanager_secret.db_credentials.name
+}
+
+output "credentials_secret_path" {
+  description = "Same as credentials_secret_name; hierarchical path for IAM policies and console navigation."
   value       = aws_secretsmanager_secret.db_credentials.name
 }
 

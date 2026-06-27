@@ -10,11 +10,18 @@ terraform {
 locals {
   name_prefix = "${var.project_name}-${var.environment}"
   name        = "${local.name_prefix}-${var.service_name}-db"
+  credentials_secret_name = (
+    var.credentials_secret_path != ""
+    ? var.credentials_secret_path
+    : "${var.project_name}/${var.environment}/${var.service_name}/database/credentials"
+  )
   common_tags = merge(var.tags, {
-    Project     = var.project_name
-    Environment = var.environment
-    Service     = var.service_name
-    ManagedBy   = "terraform"
+    Project      = var.project_name
+    Environment  = var.environment
+    Service      = var.service_name
+    Microservice = var.service_name
+    Component    = "database"
+    ManagedBy    = "terraform"
   })
 }
 
@@ -58,9 +65,12 @@ resource "aws_security_group" "db" {
 }
 
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name = "${local.name}-credentials"
+  name        = local.credentials_secret_name
+  description = "PostgreSQL credentials for ${var.service_name} (${var.environment}). Used by the ${var.service_name} microservice."
 
-  tags = local.common_tags
+  tags = merge(local.common_tags, {
+    Name = local.credentials_secret_name
+  })
 }
 
 resource "aws_db_instance" "main" {
@@ -105,12 +115,16 @@ resource "aws_secretsmanager_secret_version" "db_credentials" {
   secret_id = aws_secretsmanager_secret.db_credentials.id
 
   secret_string = jsonencode({
-    username = aws_db_instance.main.username
-    password = random_password.master.result
-    engine   = "postgres"
-    host     = aws_db_instance.main.address
-    port     = aws_db_instance.main.port
-    dbname   = aws_db_instance.main.db_name
-    jdbc_url = "jdbc:postgresql://${aws_db_instance.main.address}:${aws_db_instance.main.port}/${aws_db_instance.main.db_name}"
+    project     = var.project_name
+    environment = var.environment
+    service     = var.service_name
+    component   = "database"
+    username    = aws_db_instance.main.username
+    password    = random_password.master.result
+    engine      = "postgres"
+    host        = aws_db_instance.main.address
+    port        = aws_db_instance.main.port
+    dbname      = aws_db_instance.main.db_name
+    jdbc_url    = "jdbc:postgresql://${aws_db_instance.main.address}:${aws_db_instance.main.port}/${aws_db_instance.main.db_name}"
   })
 }

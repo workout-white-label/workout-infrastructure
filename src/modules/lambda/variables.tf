@@ -48,6 +48,12 @@ variable "log_retention_in_days" {
   default     = 14
 }
 
+variable "environment_variables" {
+  description = "Environment variables for the Lambda function."
+  type        = map(string)
+  default     = {}
+}
+
 variable "tags" {
   description = "Tags to apply to Lambda resources."
   type        = map(string)

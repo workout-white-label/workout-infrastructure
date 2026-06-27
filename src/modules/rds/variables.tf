@@ -92,6 +92,12 @@ variable "publicly_accessible" {
   default     = false
 }
 
+variable "credentials_secret_path" {
+  description = "Secrets Manager path for database credentials. Defaults to {project}/{environment}/{service}/database/credentials (console groups secrets by '/')."
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Tags to apply to RDS resources."
   type        = map(string)

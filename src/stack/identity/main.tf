@@ -27,7 +27,11 @@ module "cognito_pre_token_lambda" {
   environment   = var.environment
   function_name = "cognito-pre-token"
   handler_path  = abspath("${path.module}/../../lambdas/cognito-pre-token-generation/dist/handler.js")
-  tags          = var.tags
+  environment_variables = {
+    USER_MANAGER_BASE_URL = var.user_manager_base_url
+    INTERNAL_API_KEY      = var.internal_api_key
+  }
+  tags = var.tags
 }
 
 module "cognito" {

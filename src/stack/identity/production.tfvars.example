@@ -59,6 +59,10 @@ environment  = "production"
 # cognito_domain_prefix = "workout-production-auth"
 # password_policy_min_length = 12
 
+# Cognito Pre Token Generation Lambda -> user-manager internal API
+# user_manager_base_url = "https://user-manager.example.com"
+# internal_api_key      = "replace-with-strong-random-secret"
+
 tags = {
   Project     = "workout"
   Environment = "production"

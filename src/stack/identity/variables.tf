@@ -129,6 +129,17 @@ variable "attach_pre_token_generation_trigger" {
   default     = true
 }
 
+variable "user_manager_base_url" {
+  description = "Base URL for workout-user-manager used by the Cognito pre-token Lambda."
+  type        = string
+}
+
+variable "internal_api_key" {
+  description = "Shared API key for internal user-manager endpoints invoked by the Cognito pre-token Lambda."
+  type        = string
+  sensitive   = true
+}
+
 variable "tags" {
   description = "Tags for Cognito resources."
   type        = map(string)
