@@ -22,3 +22,8 @@ output "availability_zones" {
   description = "Availability zones used by private subnets."
   value       = aws_subnet.private[*].availability_zone
 }
+
+output "private_route_table_id" {
+  description = "Route table ID for private subnets."
+  value       = aws_route_table.private.id
+}

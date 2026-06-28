@@ -44,12 +44,28 @@ resource "aws_security_group" "db" {
   description = "PostgreSQL access for ${var.service_name}"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description     = "PostgreSQL from application security groups"
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = var.allowed_security_group_ids
+  dynamic "ingress" {
+    for_each = length(var.allowed_security_group_ids) > 0 ? [1] : []
+
+    content {
+      description     = "PostgreSQL from application security groups"
+      from_port       = 5432
+      to_port         = 5432
+      protocol        = "tcp"
+      security_groups = var.allowed_security_group_ids
+    }
+  }
+
+  dynamic "ingress" {
+    for_each = length(var.allowed_cidr_blocks) > 0 ? [1] : []
+
+    content {
+      description = "PostgreSQL from CIDR blocks (e.g. platform VPC via peering)"
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      cidr_blocks = var.allowed_cidr_blocks
+    }
   }
 
   egress {

@@ -14,8 +14,14 @@ variable "environment" {
   type        = string
 }
 
+variable "manage_github_oidc_provider" {
+  description = "Create GitHub OIDC provider in this stack. Set false if it already exists in the account."
+  type        = bool
+  default     = true
+}
+
 variable "vpc_cidr" {
-  description = "CIDR for the platform VPC (must not overlap RDS VPC 10.0.0.0/16)."
+  description = "CIDR for the platform VPC."
   type        = string
   default     = "10.10.0.0/16"
 }
@@ -44,12 +50,6 @@ variable "enable_vpc_endpoints" {
   default     = true
 }
 
-variable "enable_container_insights" {
-  description = "Enable ECS Container Insights on the cluster."
-  type        = bool
-  default     = true
-}
-
 variable "alb_listener_port" {
   description = "HTTP port on the internal ALB."
   type        = number
@@ -60,6 +60,12 @@ variable "cors_allow_origins" {
   description = "CORS allowed origins on the public API Gateway."
   type        = list(string)
   default     = ["*"]
+}
+
+variable "enable_container_insights" {
+  description = "Enable ECS Container Insights on the cluster."
+  type        = bool
+  default     = true
 }
 
 variable "tags" {

@@ -26,6 +26,13 @@ variable "subnet_ids" {
 variable "allowed_security_group_ids" {
   description = "Security group IDs allowed to connect to PostgreSQL (port 5432)."
   type        = list(string)
+  default     = []
+}
+
+variable "allowed_cidr_blocks" {
+  description = "CIDR blocks allowed to connect to PostgreSQL (e.g. platform VPC CIDR via peering)."
+  type        = list(string)
+  default     = []
 }
 
 variable "db_name" {

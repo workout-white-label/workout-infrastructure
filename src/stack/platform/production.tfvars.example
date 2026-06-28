@@ -1,23 +1,16 @@
 # Copy to production.tfvars and adjust. production.tfvars is gitignored.
 #
-# Deploy:
-#   cd src/stack/platform
-#   terraform init -backend-config=backend.hcl
-#   terraform apply -var-file=production.tfvars
+# Shared platform only. Per-microservice infrastructure is applied from
+# src/stack/ecs-service (git submodule in each app repository).
 #
-# Microservices (ECS services, ECR, listener rules) are deployed separately.
+# terraform init -backend-config=backend.hcl
+# terraform apply -var-file=production.tfvars
 
 aws_region   = "eu-west-1"
 project_name = "workout"
 environment  = "production"
 
-# vpc_cidr             = "10.10.0.0/16"
-# public_subnet_cidrs  = ["10.10.101.0/24", "10.10.102.0/24"]
-# private_subnet_cidrs = ["10.10.1.0/24", "10.10.2.0/24"]
-# single_nat_gateway   = true
-# enable_vpc_endpoints = true
-
-# cors_allow_origins = ["https://workout.julianosena.com"]
+# manage_github_oidc_provider = false  # if OIDC provider already exists
 
 tags = {
   Project     = "workout"

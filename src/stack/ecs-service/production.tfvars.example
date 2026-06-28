@@ -1,0 +1,30 @@
+# Service-specific values for this microservice.
+# In app repos: keep this file OUTSIDE the submodule (e.g. deploy/ecs-service.tfvars)
+# and pass: terraform apply -var-file=../../../deploy/ecs-service.tfvars
+
+aws_region   = "eu-west-1"
+project_name = "workout"
+environment  = "production"
+
+service_name      = "REPLACE_ME"
+github_repository = "workout-white-label/REPLACE_ME"
+
+terraform_state_bucket = "workout-infrastructure-terraform-state"
+terraform_state_region = "eu-west-1"
+
+alb_listener_priority = 100
+alb_path_patterns     = ["/api/example", "/api/example/*"]
+
+# create_database = true
+# database = {
+#   vpc_cidr             = "10.0.0.0/16"
+#   private_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+#   db_name              = "app_db"
+#   db_username          = "app_user"
+# }
+
+tags = {
+  Project      = "workout"
+  Environment  = "production"
+  Microservice = "REPLACE_ME"
+}
