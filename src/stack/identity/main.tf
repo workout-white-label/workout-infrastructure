@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "cognito_pre_token_lambda" {
-  source = "../../modules/lambda"
+  source = "../../modules/identity/lambda"
 
   project_name  = var.project_name
   environment   = var.environment
@@ -35,7 +35,7 @@ module "cognito_pre_token_lambda" {
 }
 
 module "cognito" {
-  source = "../../modules/cognito"
+  source = "../../modules/identity/cognito"
 
   project_name   = var.project_name
   environment    = var.environment

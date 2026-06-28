@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 module "static_site" {
-  source = "../../modules/static-site"
+  source = "../../modules/web/static-site"
 
   providers = {
     aws           = aws

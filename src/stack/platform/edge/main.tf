@@ -125,7 +125,7 @@ resource "aws_security_group_rule" "ecs_tasks_from_alb" {
 }
 
 module "internal_alb" {
-  source = "../../../modules/internal-alb"
+  source = "../../../modules/edge/internal-alb"
 
   project_name      = var.project_name
   environment       = var.environment
@@ -138,7 +138,7 @@ module "internal_alb" {
 }
 
 module "api_gateway" {
-  source = "../../../modules/api-gateway"
+  source = "../../../modules/edge/api-gateway"
 
   project_name                = var.project_name
   environment                 = var.environment

@@ -17,7 +17,7 @@ variable "tags" {
 }
 
 module "ecs_cluster" {
-  source = "../../../modules/ecs-cluster"
+  source = "../../../modules/compute/ecs-cluster"
 
   project_name              = var.project_name
   environment               = var.environment

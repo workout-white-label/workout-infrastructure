@@ -106,7 +106,7 @@ check "platform_prerequisites" {
 
 module "database_vpc" {
   count  = var.create_database ? 1 : 0
-  source = "../../modules/vpc"
+  source = "../../modules/network/vpc-datastore"
 
   project_name         = var.project_name
   environment          = var.environment
@@ -117,7 +117,7 @@ module "database_vpc" {
 
 module "database" {
   count  = var.create_database ? 1 : 0
-  source = "../../modules/rds"
+  source = "../../modules/data/rds"
 
   project_name        = var.project_name
   environment         = var.environment
@@ -145,7 +145,7 @@ module "database" {
 module "database_peering" {
   count = var.create_database ? 1 : 0
 
-  source = "../../modules/vpc-peering"
+  source = "../../modules/network/vpc-peering"
 
   name                      = "${local.name_prefix}-${var.service_name}-datastore"
   requester_vpc_id          = data.terraform_remote_state.platform.outputs.vpc_id
@@ -161,7 +161,7 @@ module "database_peering" {
 module "datastore_peering" {
   count = var.enable_database_peering && !var.create_database ? 1 : 0
 
-  source = "../../modules/vpc-peering"
+  source = "../../modules/network/vpc-peering"
 
   name                      = "${local.name_prefix}-${var.service_name}-datastore"
   requester_vpc_id          = data.terraform_remote_state.platform.outputs.vpc_id
@@ -189,14 +189,14 @@ resource "aws_security_group_rule" "datastore_from_platform" {
 # --- ECR, ECS service, GitHub deploy role ---
 
 module "ecr" {
-  source = "../../modules/ecr"
+  source = "../../modules/container/ecr"
 
   repository_name = local.ecr_repository_name
   tags            = local.common_tags
 }
 
 module "ecs_service" {
-  source = "../../modules/ecs-service"
+  source = "../../modules/compute/ecs-service"
 
   project_name = var.project_name
   environment  = var.environment
@@ -230,7 +230,7 @@ module "ecs_service" {
 }
 
 module "github_deploy_role" {
-  source = "../../modules/github-deploy-role"
+  source = "../../modules/ci/github-deploy-role"
 
   role_name               = "${local.name_prefix}-${var.service_name}-github-deploy"
   github_repository       = var.github_repository
