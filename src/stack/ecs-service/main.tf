@@ -106,7 +106,7 @@ check "platform_prerequisites" {
 
 module "database_vpc" {
   count  = var.create_database ? 1 : 0
-  source = "../../modules/network/vpc-datastore"
+  source = "../../modules/vpc/vpc-datastore"
 
   project_name         = var.project_name
   environment          = var.environment
@@ -145,7 +145,7 @@ module "database" {
 module "database_peering" {
   count = var.create_database ? 1 : 0
 
-  source = "../../modules/network/vpc-peering"
+  source = "../../modules/vpc/vpc-peering"
 
   name                      = "${local.name_prefix}-${var.service_name}-datastore"
   requester_vpc_id          = data.terraform_remote_state.platform.outputs.vpc_id
@@ -161,7 +161,7 @@ module "database_peering" {
 module "datastore_peering" {
   count = var.enable_database_peering && !var.create_database ? 1 : 0
 
-  source = "../../modules/network/vpc-peering"
+  source = "../../modules/vpc/vpc-peering"
 
   name                      = "${local.name_prefix}-${var.service_name}-datastore"
   requester_vpc_id          = data.terraform_remote_state.platform.outputs.vpc_id

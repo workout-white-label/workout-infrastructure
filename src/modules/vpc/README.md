@@ -1,6 +1,11 @@
-# Network modules
+# VPC modules
 
-Three modules work together for the **platform + database** topology:
+```text
+vpc/
+├── vpc-platform/    # shared runtime network (ECS, ALB, API Gateway)
+├── vpc-datastore/   # isolated private network for RDS
+└── vpc-peering/     # routes between platform and datastore VPCs
+```
 
 ```text
                     vpc-peering
@@ -12,8 +17,6 @@ Three modules work together for the **platform + database** topology:
 
 ## vpc-platform
 
-**Was:** `platform-vpc`
-
 Full VPC for the shared **runtime platform**:
 
 - Public subnets (NAT gateways)
@@ -23,8 +26,6 @@ Full VPC for the shared **runtime platform**:
 Used by: `src/stack/platform/network/`
 
 ## vpc-datastore
-
-**Was:** `vpc`
 
 Minimal **private-only** VPC for a database:
 
@@ -40,6 +41,4 @@ Connects two VPCs and adds routes in both directions:
 - **Requester:** platform VPC (ECS tasks reach the database)
 - **Accepter:** datastore VPC (return traffic to ECS)
 
-Used by `ecs-service` when a microservice needs RDS in a separate VPC.
-
-RDS security groups allow PostgreSQL from the **platform VPC CIDR** (not from security group IDs across peering).
+RDS security groups allow PostgreSQL from the **platform VPC CIDR**.

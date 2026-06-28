@@ -31,7 +31,7 @@ variable "tags" {
 }
 
 module "vpc" {
-  source = "../../../modules/network/vpc-platform"
+  source = "../../../modules/vpc/vpc-platform"
 
   project_name         = var.project_name
   environment          = var.environment

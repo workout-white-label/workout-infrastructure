@@ -4,7 +4,7 @@ Reusable building blocks grouped by domain. Stacks under `src/stack/` compose th
 
 | Folder | Modules | Purpose |
 |--------|---------|---------|
-| `network/` | vpc-platform, vpc-datastore, vpc-peering | VPCs and connectivity |
+| `vpc/` | vpc-platform, vpc-datastore, vpc-peering | VPCs and connectivity (see `vpc/README.md`) |
 | `edge/` | internal-alb, api-gateway | Public entry and internal routing |
 | `compute/` | ecs-cluster, ecs-service | Fargate cluster and per-service runtime |
 | `container/` | ecr | Container image registry |
@@ -12,5 +12,3 @@ Reusable building blocks grouped by domain. Stacks under `src/stack/` compose th
 | `ci/` | github-deploy-role | GitHub Actions OIDC deploy IAM role |
 | `identity/` | cognito, lambda | Auth and pre-token Lambda |
 | `web/` | static-site | S3 + CloudFront static hosting |
-
-See `network/README.md` for the three VPC-related modules.
