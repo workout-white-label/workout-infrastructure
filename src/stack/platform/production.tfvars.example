@@ -12,6 +12,10 @@ environment  = "production"
 
 # manage_github_oidc_provider = false  # if OIDC provider already exists
 
+github_ecs_service_terraform_repositories = [
+  "workout-white-label/workout-user-manager",
+]
+
 tags = {
   Project     = "workout"
   Environment = "production"

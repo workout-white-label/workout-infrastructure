@@ -1,3 +1,7 @@
+output "aws_region" {
+  value = var.aws_region
+}
+
 output "service_name" {
   value = module.ecs_service.service_name
 }

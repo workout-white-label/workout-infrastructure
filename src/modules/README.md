@@ -9,6 +9,6 @@ Reusable building blocks grouped by domain. Stacks under `src/stack/` compose th
 | `compute/` | ecs-cluster, ecs-service | Fargate cluster and per-service runtime |
 | `container/` | ecr | Container image registry |
 | `data/` | rds | PostgreSQL + Secrets Manager credentials |
-| `ci/` | github-deploy-role | GitHub Actions OIDC deploy IAM role |
+| `ci/` | github-deploy-role, github-ecs-service-terraform-role | GitHub Actions OIDC roles (deploy + ecs-service Terraform) |
 | `identity/` | cognito, lambda | Auth and pre-token Lambda |
 | `web/` | static-site | S3 + CloudFront static hosting |

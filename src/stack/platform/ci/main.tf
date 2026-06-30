@@ -41,4 +41,20 @@ locals {
     ? aws_iam_openid_connect_provider.github[0].arn
     : data.aws_iam_openid_connect_provider.github[0].arn
   )
+
+  name_prefix = "${var.project_name}-${var.environment}"
 }
+
+module "github_ecs_service_terraform_role" {
+  count  = length(var.github_ecs_service_terraform_repositories) > 0 ? 1 : 0
+  source = "../../../modules/ci/github-ecs-service-terraform-role"
+
+  role_name               = "${local.name_prefix}-github-ecs-service-terraform"
+  github_repositories     = var.github_ecs_service_terraform_repositories
+  oidc_provider_arn       = local.oidc_provider_arn
+  state_bucket_name       = var.terraform_state_bucket
+  resource_name_prefix    = local.name_prefix
+  aws_region              = var.aws_region
+  tags                    = merge(var.tags, { Component = "github-ecs-service-terraform" })
+}
+

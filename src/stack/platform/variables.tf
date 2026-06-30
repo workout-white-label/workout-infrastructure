@@ -20,6 +20,19 @@ variable "manage_github_oidc_provider" {
   default     = true
 }
 
+variable "terraform_state_bucket" {
+  description = "S3 bucket for Terraform remote state."
+  type        = string
+  default     = "workout-infrastructure-terraform-state"
+}
+
+variable "github_ecs_service_terraform_repositories" {
+  description = "Microservice repos that run ecs-service Terraform in GitHub Actions."
+  type        = list(string)
+  default     = []
+}
+
+
 variable "vpc_cidr" {
   description = "CIDR for the platform VPC."
   type        = string

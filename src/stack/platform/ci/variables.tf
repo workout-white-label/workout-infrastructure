@@ -15,3 +15,20 @@ variable "manage_github_oidc_provider" {
   type        = bool
   default     = true
 }
+
+variable "terraform_state_bucket" {
+  description = "S3 bucket for Terraform remote state (from bootstrap output)."
+  type        = string
+}
+
+variable "aws_region" {
+  description = "AWS region for IAM policy ARNs."
+  type        = string
+}
+
+variable "github_ecs_service_terraform_repositories" {
+  description = "App repos allowed to run ecs-service Terraform in CI (org/repo)."
+  type        = list(string)
+  default     = []
+}
+

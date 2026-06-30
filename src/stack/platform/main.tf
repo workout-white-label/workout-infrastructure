@@ -17,10 +17,13 @@ module "network" {
 module "ci" {
   source = "./ci"
 
-  project_name                = var.project_name
-  environment                 = var.environment
-  manage_github_oidc_provider = var.manage_github_oidc_provider
-  tags                        = local.common_tags
+  project_name                              = var.project_name
+  environment                               = var.environment
+  manage_github_oidc_provider             = var.manage_github_oidc_provider
+  terraform_state_bucket                    = var.terraform_state_bucket
+  aws_region                                = var.aws_region
+  github_ecs_service_terraform_repositories = var.github_ecs_service_terraform_repositories
+  tags                                      = local.common_tags
 }
 
 module "edge" {

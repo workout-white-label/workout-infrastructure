@@ -80,3 +80,8 @@ output "github_oidc_provider_arn" {
   description = "GitHub Actions OIDC provider ARN (used by ecs-service stack)."
   value       = module.ci.oidc_provider_arn
 }
+
+output "github_ecs_service_terraform_role_arn" {
+  description = "IAM role for microservice repos to apply ecs-service Terraform in CI."
+  value       = module.ci.github_ecs_service_terraform_role_arn
+}
