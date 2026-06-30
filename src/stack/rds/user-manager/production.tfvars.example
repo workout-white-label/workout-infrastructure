@@ -1,0 +1,27 @@
+# Copy to production.tfvars (gitignored) and apply after platform stack exists.
+#
+# Schema is managed by Flyway in workout-user-manager:
+#   src/main/resources/db/migration/V1__create_users.sql
+
+aws_region   = "eu-west-1"
+project_name = "workout"
+environment  = "production"
+service_name = "user-manager"
+
+# Isolated datastore VPC (peered from ecs-service stack).
+vpc_cidr             = "10.0.0.0/16"
+private_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+
+db_name     = "user_manager"
+db_username = "user_manager"
+
+engine_version    = "16"
+instance_class    = "db.t4g.micro"
+allocated_storage = 20
+
+tags = {
+  Project      = "workout"
+  Environment  = "production"
+  Microservice = "user-manager"
+  Layer        = "datastore"
+}
