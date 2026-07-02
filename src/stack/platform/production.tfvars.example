@@ -16,6 +16,10 @@ github_ecs_service_terraform_repositories = [
   "workout-white-label/workout-user-manager",
 ]
 
+# Private EC2 for SSM port forwarding (IDE → RDS). No SSH port open.
+# enable_ssm_bastion = true
+# ssm_bastion_postgres_egress_cidr_blocks = ["10.0.0.0/16"]
+
 tags = {
   Project     = "workout"
   Environment = "production"

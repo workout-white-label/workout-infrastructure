@@ -51,3 +51,18 @@ module "compute" {
 
   depends_on = [module.network]
 }
+
+module "bastion" {
+  count  = var.enable_ssm_bastion ? 1 : 0
+  source = "./bastion"
+
+  project_name                = var.project_name
+  environment                 = var.environment
+  vpc_id                      = module.network.vpc_id
+  subnet_id                   = module.network.private_subnet_ids[0]
+  instance_type               = var.ssm_bastion_instance_type
+  postgres_egress_cidr_blocks = var.ssm_bastion_postgres_egress_cidr_blocks
+  tags                        = local.common_tags
+
+  depends_on = [module.network]
+}

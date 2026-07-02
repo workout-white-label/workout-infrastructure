@@ -81,6 +81,24 @@ variable "enable_container_insights" {
   default     = true
 }
 
+variable "enable_ssm_bastion" {
+  description = "Create a private EC2 instance for SSM Session Manager port forwarding (e.g. IDE → RDS)."
+  type        = bool
+  default     = false
+}
+
+variable "ssm_bastion_instance_type" {
+  description = "Instance type for the SSM bastion."
+  type        = string
+  default     = "t4g.nano"
+}
+
+variable "ssm_bastion_postgres_egress_cidr_blocks" {
+  description = "Datastore VPC CIDR(s) the bastion may reach on port 5432."
+  type        = list(string)
+  default     = ["10.0.0.0/16"]
+}
+
 variable "tags" {
   description = "Tags for platform resources."
   type        = map(string)

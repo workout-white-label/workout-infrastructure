@@ -85,3 +85,8 @@ output "github_ecs_service_terraform_role_arn" {
   description = "IAM role for microservice repos to apply ecs-service Terraform in CI."
   value       = module.ci.github_ecs_service_terraform_role_arn
 }
+
+output "ssm_bastion_instance_id" {
+  description = "EC2 instance ID for SSM port forwarding to private RDS (null if enable_ssm_bastion = false)."
+  value       = try(module.bastion[0].instance_id, null)
+}
